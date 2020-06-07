@@ -6,6 +6,8 @@ import { CSSTransition } from "react-transition-group";
 import pop from "../../styles/pop.module.css";
 import decreaseScale from "../../styles/decreaseScale.module.css";
 
+import { Persist } from "react-persist";
+
 const FormToAddContact = lazy(() =>
   import("../FormToAddContact/FormToAddContact" /*webpackChankName: "form" */)
 );
@@ -37,16 +39,24 @@ const App = ({ contacts, getContactsFromLocalStorage }) => {
     handleTitleRendering();
   });
 
-  useEffect(() => {
-    const savedLocalyContacts = JSON.parse(localStorage.getItem("contacts"));
-    if (savedLocalyContacts) getContactsFromLocalStorage(savedLocalyContacts);
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   const savedLocalyContacts = JSON.parse(localStorage.getItem("contacts"));
+  //   if (savedLocalyContacts) getContactsFromLocalStorage(savedLocalyContacts);
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
 
   return (
     <div className={styles.appWraper}>
+      <Persist
+        name="persisted-contacts"
+        data={contacts}
+        debounce={500}
+        onMount={(data) => getContactsFromLocalStorage(data)}
+      />
+
       <CSSTransition
         in={isTitleRendered}
         timeout={500}

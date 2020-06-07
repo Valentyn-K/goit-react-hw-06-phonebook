@@ -17,11 +17,6 @@ const initialState = [
 ];
 //redux-toolkit
 
-// const timer = createReducer(0, {
-//   [increment]: (state, action) => state + action.payload,
-//   [decrement]: (state, action) => state - action.payload,
-// });
-
 export const addDelContactReducer = createReducer(initialState, {
   [Type.ADD_CONTACT]: (state = initialState, { type, payload }) => [
     ...state,
